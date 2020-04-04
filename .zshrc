@@ -141,5 +141,5 @@ zle-line-init() {
 # alias ohmyzsh="mate ~/.oh-my-zsh"
 # # Load zsh-syntax-highlighting; should be last.
 
-if [ "$TMUX" = "" ]; then tmux; fi
+if [ "$TMUX" = "" ]; then tmux at; fi
 source /usr/share/zsh/plugins/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh 2>/dev/null

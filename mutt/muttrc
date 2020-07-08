@@ -1,0 +1,40 @@
+# imap
+set imap_user = morimoty
+set imap_pass = "Clone#123"
+set folder = "imaps://imap.students.uni-marburg.de:993"
+set spoolfile = "+INBOX"
+
+# smtp
+unset record
+set record = +Sent
+set smtp_url= "smtps://morimoty@students.uni-marburg.de@smtp.uni-marburg.de:465"
+set smtp_pass = "Clone#123"
+set realname = 'Yasoo Morimoto Neto'
+set from = "morimoty@students.uni-marburg.de"
+set use_from = yes
+
+# folders
+set trash = "+Trash"
+set postponed = "+Drafts"
+mailboxes =INBOX =Sent =Trash =Drafts =Junk =Other
+
+# colors
+source colors
+
+# Keybinding
+bind pager j next-line
+bind pager k previous-line
+bind attach,index,pager \CD next-page
+bind attach,index,pager \CU previous-page
+bind pager g top
+bind pager G bottom
+bind attach,index g first-entry
+bind attach,index G last-entry
+
+# Sorting
+
+set sort_aux = last-date-received       
+set sort = reverse-threads
+
+# other config
+set editor = nvim

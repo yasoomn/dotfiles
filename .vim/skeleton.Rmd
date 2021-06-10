@@ -1,0 +1,26 @@
+---
+title: ""
+author: Yasoo Morimoto - 3168778 - morimoty@students.uni-marburg.de
+date: 20, April 2021
+lang: de-DE
+fontsize: 11pt
+geometry:
+    - top=2.5cm
+    - right=2.5cm
+    - bottom=2cm
+    - left=2.5cm
+bibliography: .bibtex
+csl: cell.csl
+output:
+  pdf_document:
+    latex_engine: xelatex 
+    fig_width: 6
+    fig_height: 5
+    fig_caption: yes
+mainfont: LiberationSerif
+sansfont: LiberationSans
+monofont: LiberationMono
+header-includes: 
+- \usepackage{graphicx}
+- \usepackage{float}
+---

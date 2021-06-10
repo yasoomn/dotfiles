@@ -1,21 +1,28 @@
-# Luke's config for the Zoomer Shell
+# Created by newuser for 5.8
 
 # Enable colors and change prompt:
 autoload -U colors && colors
-#PS1="%B%{$fg[red]%}[%{$fg[yellow]%}%n%{$fg[green]%}@%{$fg[blue]%}%M %{$fg[magenta]%}%~%{$fg[red]%}]%{$reset_color%}$%b "
-PROMPT='%~> '
 
-# History in cache directory:
-HISTSIZE=10000
-SAVEHIST=10000
-HISTFILE=~/.cache/zsh/history
 
-# Basic auto/tab complete:
-autoload -U compinit
-zstyle ':completion:*' menu select
-zmodload zsh/complist
-compinit
-_comp_options+=(globdots)		# Include hidden files.
+
+alias vim=nvim
+source ~/Projects/zsh-autocomplete/zsh-autocomplete.plugin.zsh
+
+zstyle ':autocomplete:*' min-input 2  # number of characters (integer)
+# 0: Show completions immediately on each new command line.
+# 1: Wait for at least 1 character of input.
+#
+# When completions don't fit on screen, show up to this many lines:
+zstyle ':autocomplete:*' list-lines 4  # (integer)
+# 💡 NOTE: The actual amount shown can be less.
+
+zstyle ':autocomplete:*' widget-style menu-complete
+# complete-word: (Shift-)Tab inserts the top (bottom) completion.
+# menu-complete: Press again to cycle to next (previous) completion.
+# menu-select:   Same as `menu-complete`, but updates selection in menu.
+# ⚠️ NOTE: This can NOT be changed at runtime.
+
+
 
 # vi mode
 bindkey -v
@@ -28,43 +35,6 @@ bindkey -M menuselect 'l' vi-forward-char
 bindkey -M menuselect 'j' vi-down-line-or-history
 bindkey -v '^?' backward-delete-char
 
-
-# Edit line in vim with ctrl-e:
-autoload edit-command-line; zle -N edit-command-line
-bindkey '^e' edit-command-line
-
-
-# Load aliases and shortcuts if existent.
-[ -f "$HOME/.config/shortcutrc" ] && source "$HOME/.config/shortcutrc"
-[ -f "$HOME/.config/aliasrc" ] && source "$HOME/.config/aliasrc"
-
 if command -v tmux &> /dev/null && [ -z "$TMUX" ]; then
     tmux attach -t $(tmux ls | grep -v attached | head -1 | cut -f1 -d:) || env TERM=screen-256color tmux
 fi
-ufetch
-
-# Load zsh-syntax-highlighting; should be last.
-source /usr/share/zsh/plugins/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh 2>/dev/null
-export PATH=$PATH:~/.local/bin
-
-PATH="/home/yasoo/perl5/bin${PATH:+:${PATH}}"; export PATH;
-PERL5LIB="/home/yasoo/perl5/lib/perl5${PERL5LIB:+:${PERL5LIB}}"; export PERL5LIB;
-PERL_LOCAL_LIB_ROOT="/home/yasoo/perl5${PERL_LOCAL_LIB_ROOT:+:${PERL_LOCAL_LIB_ROOT}}"; export PERL_LOCAL_LIB_ROOT;
-PERL_MB_OPT="--install_base \"/home/yasoo/perl5\""; export PERL_MB_OPT;
-PERL_MM_OPT="INSTALL_BASE=/home/yasoo/perl5"; export PERL_MM_OPT;
-
-# >>> conda initialize >>>
-# !! Contents within this block are managed by 'conda init' !!
-__conda_setup="$('/home/yasoo/anaconda3/bin/conda' 'shell.zsh' 'hook' 2> /dev/null)"
-if [ $? -eq 0 ]; then
-    eval "$__conda_setup"
-else
-    if [ -f "/home/yasoo/anaconda3/etc/profile.d/conda.sh" ]; then
-        . "/home/yasoo/anaconda3/etc/profile.d/conda.sh"
-    else
-        export PATH="/home/yasoo/anaconda3/bin:$PATH"
-    fi
-fi
-unset __conda_setup
-# <<< conda initialize <<<
-

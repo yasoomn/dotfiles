@@ -1,12 +1,15 @@
-# Created by newuser for 5.8
+# enable vim mode
+bindkey -v
 
-# Enable colors and change prompt:
-autoload -U colors && colors
+# Prompt
+autoload -U promptinit; promptinit
+prompt spaceship bart
 
+source /usr/share/zsh/plugins/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
+source /usr/share/zsh/plugins/zsh-autosuggestions/zsh-autosuggestions.zsh
+source /usr/share/zsh/plugins/zsh-vi-mode/zsh-vi-mode.plugin.zsh
 
-
-alias vim=nvim
-source ~/Projects/zsh-autocomplete/zsh-autocomplete.plugin.zsh
+export SPACESHIP_TIME_SHOW=true
 
 zstyle ':autocomplete:*' min-input 2  # number of characters (integer)
 # 0: Show completions immediately on each new command line.
@@ -21,20 +24,16 @@ zstyle ':autocomplete:*' widget-style menu-complete
 # menu-complete: Press again to cycle to next (previous) completion.
 # menu-select:   Same as `menu-complete`, but updates selection in menu.
 # ⚠️ NOTE: This can NOT be changed at runtime.
-
-
-
-# vi mode
-bindkey -v
-export KEYTIMEOUT=1
-
-# Use vim keys in tab complete menu:
-bindkey -M menuselect 'h' vi-backward-char
-bindkey -M menuselect 'k' vi-up-line-or-history
-bindkey -M menuselect 'l' vi-forward-char
-bindkey -M menuselect 'j' vi-down-line-or-history
-bindkey -v '^?' backward-delete-char
+zstyle ':completion:*' menu select
+zstyle ':completion::complete:*' gain-privileges 1
 
 if command -v tmux &> /dev/null && [ -z "$TMUX" ]; then
     tmux attach -t $(tmux ls | grep -v attached | head -1 | cut -f1 -d:) || env TERM=screen-256color tmux
 fi
+
+# Aliases
+
+alias ls="lsd"
+alias cat="bat"
+
+pfetch

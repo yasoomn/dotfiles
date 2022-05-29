@@ -10,6 +10,8 @@ source /usr/share/zsh/plugins/zsh-autosuggestions/zsh-autosuggestions.zsh
 source /usr/share/zsh/plugins/zsh-vi-mode/zsh-vi-mode.plugin.zsh
 
 export SPACESHIP_TIME_SHOW=true
+export PATH="$HOME/.local/bin:$HOME/.cargo/bin:$PATH"
+export EDITOR=nvim
 
 zstyle ':autocomplete:*' min-input 2  # number of characters (integer)
 # 0: Show completions immediately on each new command line.
@@ -27,13 +29,17 @@ zstyle ':autocomplete:*' widget-style menu-complete
 zstyle ':completion:*' menu select
 zstyle ':completion::complete:*' gain-privileges 1
 
-if command -v tmux &> /dev/null && [ -z "$TMUX" ]; then
-    tmux attach -t $(tmux ls | grep -v attached | head -1 | cut -f1 -d:) || env TERM=screen-256color tmux
-fi
-
 # Aliases
 
 alias ls="lsd"
 alias cat="bat"
+alias pacfind="yay -Qq | fzf --preview 'yay -Qil {}' --layout=reverse --bind 'enter:execute(yay -Qil {} | less)'"
+alias open="xdg-open"
+
+if command -v tmux &> /dev/null && [ -z "$TMUX" ]; then
+    tmux attach -t $(tmux ls | grep -v attached | head -1 | cut -f1 -d:) || systemd-run --scope --user tmux
+fi
 
 pfetch
+
+source /home/yasoo/.config/broot/launcher/bash/br

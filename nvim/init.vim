@@ -1,170 +1,178 @@
-call plug#begin('~/.vim/plugged')
-Plug 'morhetz/gruvbox'
-Plug 'scrooloose/nerdtree'
-Plug 'townk/vim-autoclose'
-Plug 'neoclide/coc.nvim', {'branch': 'release'}
-Plug 'jalvesaq/Nvim-R', {'branch': 'stable'}
-Plug 'rakr/vim-one'
-" Initialize plugin system
+call plug#begin()
+	Plug 'plasticboy/vim-markdown'
+	Plug 'lifepillar/vim-gruvbox8'
+	Plug 'jalvesaq/Nvim-R', {'branch': 'stable'}
+	Plug 'junegunn/goyo.vim'
+	Plug 'jalvesaq/zotcite'
+	Plug 'townk/vim-autoclose'
+	Plug 'airblade/vim-gitgutter'
+	Plug 'christoomey/vim-system-copy'
+	Plug 'scrooloose/nerdtree'
+	Plug 'ryanoasis/vim-devicons'
+	Plug 'wincent/terminus'
+	Plug 'rrethy/vim-illuminate'
+	Plug 'viklund/bio-vim'
+	Plug 'vim-airline/vim-airline'
+	Plug 'neoclide/coc.nvim', {'branch': 'release'}
+	Plug 'yuttie/comfortable-motion.vim'
+	Plug 'lambdalisue/suda.vim'
+	Plug 'rrethy/vim-hexokinase', { 'do': 'make hexokinase' }
+	Plug 'lervag/vimtex'
+	Plug 'mhinz/vim-startify'
+	Plug 'dense-analysis/ale'
+
+
 call plug#end()
 
-filetype plugin indent on
-"set autoindent
-"set copyindent      " copy indent from the previous line "
-
-let g:multi_cursor_select_all_word_key = '<C-m>'
-
-" fix color?
-set t_Co=256                         " Enable 256 colors
-set termguicolors                    " Enable GUI colors for the terminal to get truecolor 
-
-" R
- autocmd TermOpen * setlocal nonumber
-let R_rconsole_width = 0
-let R_rconsole_height = 15
-
-" turn hybrid line numbers on
-:set number relativenumber
+let g:startify_custom_header=[
+\'',
+\'███╗   ██╗███████╗ ██████╗ ██╗   ██╗██╗███╗   ███╗',
+\'████╗  ██║██╔════╝██╔═══██╗██║   ██║██║████╗ ████║',
+\'██╔██╗ ██║█████╗  ██║   ██║██║   ██║██║██╔████╔██║',
+\'██║╚██╗██║██╔══╝  ██║   ██║╚██╗ ██╔╝██║██║╚██╔╝██║',
+\'██║ ╚████║███████╗╚██████╔╝ ╚████╔╝ ██║██║ ╚═╝ ██║',
+\'╚═╝  ╚═══╝╚══════╝ ╚═════╝   ╚═══╝  ╚═╝╚═╝     ╚═╝',
+\'                                                  ',
+\'',
+\'',
+\'',
+\]
 
 
-" splits open at the bottom and right
-set splitbelow splitright 
-
-" mouse mode
 set mouse=a
-
-" Turn on syntax highlighting
-syntax on
-
-" Pick a leader key
-let mapleader = ","
-
-" Show line numbers
+set encoding=UTF-8
 set number
-
-" Better command-line completion
-set lazyredraw
 set wildmenu
-set wildignorecase
-set undofile
-set noshowcmd
-
-" Show file stats
-set ruler
-
-" Markdown 
-let R_pdfviewer = "evince"
-
-
-" disable bell
-set noerrorbells
-
-" Encoding
-"set encoding=utf-8
-
-" wrap lines
 set wrap
-set tabstop=4 softtabstop=4
-set shiftwidth=4
-set smarttab
-set expandtab
+set linebreak
+filetype plugin indent on
+syntax on
+set t_Co=256
+let mapleader = ","
+let g:python3_host_prog = '/usr/bin/python3'
 
-" Cursor motion
-set scrolloff=3
-set backspace=indent,eol,start
-set matchpairs+=<:> " use % to jump between pairs
-runtime! macros/matchit.vim
+" source COC config
+source /home/yasoo/.config/nvim/coc.vim
 
+" configuration for tab character
+set softtabstop=0 noexpandtab
+set tabstop=2
+set shiftwidth=2
+set noexpandtab smarttab
 
+" see tabs as characters
+
+set list
+set listchars=tab:>>
+
+" True color if available
+let term_program=$TERM_PROGRAM
 
 " Move up/down editor lines
-nnoremap j gj
-nnoremap k gk
-
-" Allow hidden buffers
-
-set hidden
-" Rendering
-
-set ttyfast
-
-" Status bar
-
-set laststatus=2
-
-" NERDtree 
-nmap <C-f> :NERDTreeToggle<Enter>
-
-
-
-" Last line
-set showmode
-set showcmd
+"nnoremap j gj
+"nnoremap k gk
+"vnoremap j gj
+"vnoremap k gk
 
 " Searching
 nnoremap / /\v
 vnoremap / /\v
-set hlsearch
 set incsearch
 set ignorecase
 set smartcase
 set showmatch
 map <leader><space> :let @/=''<cr> " clear search
 
-" Formatting
-map <leader>q gqip
+" Italics
+let &t_ZH="\e[3m"
+let &t_ZR="\e[23m"
 
-" Visualize tabs and newlines
-set listchars=tab:▸\ ,eol:¬
+" Hexokinase
+let g:Hexokinase_highlighters = ['foreground']
+let g:Hexokinase_optInPatterns = 'full_hex,rgb,rgba,hsl,hsla'
 
-" Uncomment this to enable by default: set list " To enable by default Or use
-" your leader key + l to toggle on/off
+" highlight 80th column
+set cc=80
 
-map <leader>l :set list!<CR> " Toggle tabs and EOL
+" highlight current line
+set cursorline
+" highilight current column
+set cursorcolumn
 
-
-
-" snippets
-nnoremap ,html :-1read $HOME/.vim/skeleton.html<CR>3j2f>a
-nnoremap ,rmd :-1read $HOME/.vim/skeleton.Rmd<CR>
-
-
-
-" format JSON
-command! Jsonf :execute '%!python -c "import json,sys,collections,re; sys.stdout.write(re.sub(r\"\\\u[0-9a-f]{4}\", lambda m:m.group().decode(\"unicode_escape\").encode(\"utf-8\"),json.dumps(json.load(sys.stdin, object_pairs_hook=collections.OrderedDict), indent=2)))"'
+" Markdown
 
 
+set spelllang=en
+autocmd FileType markdown,tex setlocal spell
 
-" Color scheme (terminal)
-"Credit joshdick
-"Use 24-bit (true-color) mode in Vim/Neovim when outside tmux.
-"If you're using tmux version 2.2 or later, you can remove the outermost $TMUX check and use tmux's 24-bit color support
-"(see < http://sunaku.github.io/tmux-24bit-color.html#usage > for more information.)
-if (empty($TMUX))
-  if (has("nvim"))
-    "For Neovim 0.1.3 and 0.1.4 < https://github.com/neovim/neovim/pull/2198 >
-    let $NVIM_TUI_ENABLE_TRUE_COLOR=1
-  endif
-  "For Neovim > 0.1.5 and Vim > patch 7.4.1799 < https://github.com/vim/vim/commit/61be73bb0f965a895bfb064ea3e55476ac175162 >
-  "Based on Vim patch 7.4.1770 (`guicolors` option) < https://github.com/vim/vim/commit/8a633e3427b47286869aa4b96f2bfc1fe65b25cd >
-  " < https://github.com/neovim/neovim/wiki/Following-HEAD#20160511 >
-  if (has("termguicolors"))
-    set termguicolors
-  endif
-endif
+" disable header folding
+let g:vim_markdown_folding_disabled = 1
 
+" do not use conceal feature, the implementation is not so good
+let g:vim_markdown_conceal = 1
 
-"let g:gruvbox_contrast_dark = 'hard'
+" list indenting
+"let g:vim_markdown_new_list_item_indent = 2
+
+" LimeLight
+let g:limelight_conceal_guifg = 'Gray'
+
+" Scrolling
+
+let g:comfortable_motion_scroll_down_key = "j"
+let g:comfortable_motion_scroll_up_key = "k"
+noremap <silent> <ScrollWheelDown> :call comfortable_motion#flick(40)<CR>
+noremap <silent> <ScrollWheelUp>   :call comfortable_motion#flick(-40)<CR>
+"
+let g:comfortable_motion_friction = 160.0
+let g:comfortable_motion_air_drag = 3.0
+"
+"nnoremap <silent> <C-d> :call comfortable_motion#flick(g:comfortable_motion_impulse_multiplier * winheight(0) * 2)<CR>
+"nnoremap <silent> <C-u> :call comfortable_motion#flick(g:comfortable_motion_impulse_multiplier * winheight(0) * -2)<CR>
+"
+" Suda.vim
+let g:suda_smart_edit = 1
+
+"" NerdTree
+
+nnoremap <leader>n :NERDTreeToggle<CR>
+
+" Exit Vim if NERDTree is the only window remaining in the only tab.
+autocmd BufEnter * if tabpagenr('$') == 1 && winnr('$') == 1 && exists('b:NERDTree') && b:NERDTree.isTabTree() | quit | endif
+
+" Close the tab if NERDTree is the only window remaining in it.
+autocmd BufEnter * if winnr('$') == 1 && exists('b:NERDTree') && b:NERDTree.isTabTree() | quit | endif
+
+" Edit vim configuration file
+nnoremap <Leader>dote :tabnew $MYVIMRC<CR>
+" " Reload vimr configuration file
+nnoremap <Leader>dotr :source $MYVIMRC<CR>
+
+"Vimtex
+
+" Zotcite
+"let $ZBannedWords = 'a an the some from on in to of do'
+"let $ZCitationTemplate = '{author}_{title}_{Year}'
+let zotcite_conceallevel = 0
+let zotcite_hl = 0
+
+"Airline
+let g:airline#extensions#tabline#enabled = 1
+
+"Neovide ->
+set guifont="Yuku Code"
+let g:neovide_transparency=1
+"let g:neovide_floating_blur_amount_x = 20.0
+"let g:neovide_floating_blur_amount_y = 20.0
+let g:neovide_remember_window_size = v:true
+let g:neovide_cursor_antialiasing=v:true
+let g:neovide_cursor_vfx_mode = "railgun"
+let g:neovide_scroll_animation_length = 1
+let g:neovide_cursor_trail_length=0.1
+let g:neovide_cursor_animation_length=0.05
+
 let g:gruvbox_italic = 1
 let g:one_allow_italics = 1
-colorscheme gruvbox
 set background=dark
+colorscheme gruvbox8
 
-hi Normal guibg=NONE ctermbg=NONE
-
-"-----------------------------------
-	" coc 
-"-----------------------------
-source $HOME/.config/nvim/coc.vim
-set t_ZH=^[[3m
-set t_ZR=^[[23m
